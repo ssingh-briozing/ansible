@@ -1,32 +1,33 @@
 ---
-- name: Check if java is installed
-  win_shell: "java -version"
-  args:
-    executable: cmd
-  register: java_version
-  ignore_errors: True
+#- name: Check if java is installed
+#  win_shell: "java -version"
+#  args:
+#    executable: cmd
+#  register: java_version
+#  ignore_errors: True
+#
+#- name: Check if maven is installed
+#  win_shell: "mvn -version"
+#  args:
+#    executable: cmd
+#  register: mvn_version
+#  ignore_errors: True
+#
+#- name: Check if git is installed
+#  win_shell: "git --version"
+#  args:
+#    executable: cmd
+#  register: git_version
+#  ignore_errors: True
+#
+#
+#- include_tasks: java.yml
+#  when: java_version is failed
+#
+#- include_tasks: maven.yml
+#  when: mvn_version is failed
+#
+#- include_tasks: git.yml
+#  when: git_version is failed
 
-- name: Check if maven is installed
-  win_shell: "mvn -version"
-  args:
-    executable: cmd
-  register: mvn_version
-  ignore_errors: True
-  
-- name: Check if git is installed
-  win_shell: "git -version"
-  args:
-    executable: cmd
-  register: git_version
-  ignore_errors: True
-
-
-- include_tasks: java.yml
-  when: java_version is failed
-
-- include_tasks: maven.yml
-  when: mvn_version is failed
-
-- include_tasks: git.yml
-  when: git_version is failed
 - include_tasks: deployment.yml
