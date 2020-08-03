@@ -1,0 +1,43 @@
+---
+- name: create directory to store maven configs
+  win_file:
+    path: C:\Program Files\Maven
+    state: directory
+
+- name: download maven binary
+  win_get_url:
+    url: http://apachemirror.wuchna.com/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.zip
+    dest: 'C:\\Users\\Administrator\\Downloads\\apache-maven-3.6.3-bin.zip'
+
+- name: unzip the maven zip
+  win_unzip:
+    src: 'C:\\Users\\Administrator\\Downloads\\apache-maven-3.6.3-bin.zip'
+    dest: 'C:\\Program Files\\Maven\\'
+
+- name: Add M2_HOME Env
+  win_path:
+    name: M2_HOME
+    elements: C:\Program Files\Maven\apache-maven-3.6.3
+    scope: machine
+    state: present
+
+- name: Add M2_BIN Env
+  win_path:
+    name: PATH
+    elements: C:\Program Files\Maven\apache-maven-3.6.3\bin
+    scope: machine
+    state: present
+
+#- name: Reboot Windows Server
+#  win_reboot:
+#    msg: "Restart the server 3 seconds later"
+#    post_reboot_delay: 3
+#    test_command: whoami
+
+- name: check mvn shell
+  win_shell: "mvn -version"
+  args:
+    executable: cmd
+  register: maven_version
+
+- debug: msg="{{maven_version.stderr_lines}}"

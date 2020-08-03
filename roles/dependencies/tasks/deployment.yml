@@ -1,0 +1,34 @@
+---
+- name: Create folder to store artifacts if not exist
+  win_file:
+    path: 'C:\\Users\\Administrator\\Downloads\\artifactoty\\'
+    state: directory
+- name: Create folder to extract artifacts if not exist
+  win_file:
+    path: 'C:\\Users\\Administrator\\Downloads\\artifacts\\'
+    state: directory
+
+- name: Download the artifact from jFrog
+  win_copy:
+    src: finalBuild-102.zip
+    dest: 'C:\\Users\\Administrator\\Downloads\\artifactoty\\finalBuild-102.zip'
+
+- name: Extract the artifacts
+  win_unzip:
+    src: 'C:\\Users\\Administrator\\Downloads\\artifactoty\\finalBuild-102.zip'
+    dest: 'C:\\Users\\Administrator\\Downloads\\artifacts\\'
+    delete_archive: yes
+
+#- name: Run the script to generate other script
+#  win_shell: "C:\\Users\\Administrator\\Downloads\\artifacts\\Transport_Modeling\\bin\\start.bat"
+#    args:
+#      executable: cmd
+#    register: output
+#- debug: msg="{{maven_version.stderr_lines}}"
+
+#  win_get_url:
+#    url: http://localhost:8082/artifactory/service-common-test/modules/finalBuild-{{ build_id }}.zip
+#    headers:  {"X-JFrog-Art-Api": "AKCp5fTjj5hkuAK7v3kFqSQ539jLiXE33Vax533NKBwrbce4T25yGKopok4ED2BbgptJFwwPk"}
+#    url_username: admin
+#    url_password: password
+#    dest: 'C:\\Users\\Administrator\\Downloads\\artifactoty'

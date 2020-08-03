@@ -1,0 +1,43 @@
+---
+- name: download the jdk binary
+  win_get_url:
+    url: https://download.java.net/openjdk/jdk11/ri/openjdk-11+28_windows-x64_bin.zip
+    dest: 'C:\\Users\\Administrator\\Downloads\\openjdk-11.zip'
+
+- name: Create java directory
+  win_file:
+    path: 'C:\\Program Files\\Java\\'
+    state: directory
+
+- name: unzip the binary
+  win_unzip:
+    src: 'C:\\Users\\Administrator\\Downloads\\openjdk-11.zip'
+    dest: 'C:\\Program Files\\Java\\'
+
+- name: Add JAVA_HOME Env
+  win_path:
+    name: JAVA_HOME
+    elements: C:\Program Files\Java\jdk-11
+    scope: machine
+    state: present
+
+- name: Add JAVA_BIN Env
+  win_path:
+    name: PATH
+    elements: C:\Program Files\Java\jdk-11\bin
+    scope: machine
+    state: present
+
+#- name: Reboot Windows Server
+#  win_reboot:
+#    msg: "Restart the server 3 seconds later"
+#    post_reboot_delay: 3
+#    test_command: whoami
+
+- name: check jdk shell
+  win_shell: "java -version"
+  args:
+    executable: cmd
+  register: java_version
+
+- debug: msg="{{java_version.stderr_lines}}"

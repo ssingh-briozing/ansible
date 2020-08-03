@@ -1,0 +1,8 @@
+- name: "Playbook deploy jar"
+  hosts: windows1
+  gather_facts: false
+  vars:
+    - build_id: 75
+    - old_artifact_id: "{{ build_id|int - 1 }}"
+  roles:
+    - dependencies
